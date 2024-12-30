@@ -16,7 +16,10 @@
 
 ```yaml
 dependencies:
-  luk_sdk: ^${latestVersion}
+  luk_sdk: 
+    git:
+      url: git@github.com:CFGameTech/flutter.git
+      path: flutter/luk_sdk
 ```
 
 ## 使用
