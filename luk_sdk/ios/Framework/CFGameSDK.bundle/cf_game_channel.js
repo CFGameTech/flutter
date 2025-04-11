@@ -119,13 +119,13 @@ var cf_game={
             console.log("gameSoundSet()");
             CFGameLife.gameSoundSet.postMessage(mode);
         },
-        qiutGame(){
-            console.log("qiutGame()");
-            CFGameLife.qiutGame();
+        quitGame(){
+            console.log("quitGame()");
+            CFGameLife.quitGame("success");
         },
         gameLoadOfflineProps() {
                 console.log("gameLoadOfflineProps()");
-                CFGameLife.gameLoadOfflineProps();
+                CFGameLife.gameLoadOfflineProps("success");
         },
         
         

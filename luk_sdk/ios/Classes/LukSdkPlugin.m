@@ -138,7 +138,7 @@ const NSString *_gameList = @"gameList";
             NSDictionary *result = @{_errCode:@(0),_msg:@"success",_gameList:gameNewArr};
 
             if(self->_channel != nil){
-                [self->_channel invokeMethod:@"onGetGameSuccess" arguments:result];
+                [self->_channel invokeMethod:@"onGetGameList" arguments:result];
             }
         }else{
             if(self->_channel != nil){
