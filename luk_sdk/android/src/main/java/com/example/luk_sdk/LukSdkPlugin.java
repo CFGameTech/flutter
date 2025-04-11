@@ -153,14 +153,13 @@ public class LukSdkPlugin implements FlutterPlugin, MethodCallHandler, ActivityA
           }
         }
 
-
         Map result = new HashMap<>();
         result.put(errCode, 0);
         result.put(mgameList, newGameList);
 
         Log.i(TAG, "get Game List success." + result);
         if(channel != null){
-          channel.invokeMethod("onGetGameSuccess", result);
+          channel.invokeMethod("onGetGameList", result);
         }
       }
 

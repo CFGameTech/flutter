@@ -90,13 +90,8 @@ typedef void(^GetGameListFailureBlk)(int code ,NSString * __nonnull msg);
  *
  * 用户自动上麦加入游戏
  */
-- (BOOL)onPreJoinGame:(NSString *_Nonnull)uid seatIndex:(int)seatIndex;
+- (BOOL)onPreJoinGame:(NSString *_Nonnull)uid seatIndex:(NSInteger)seatIndex;
 
-/**
- *
- * 用户加入游戏
- */
-- (void)onJoinGame:(NSString *__nonnull)uid;
 
 /**
  *
@@ -110,6 +105,11 @@ typedef void(^GetGameListFailureBlk)(int code ,NSString * __nonnull msg);
  */
 - (void)onCancelPrepare:(NSString *__nonnull)uid;
 
+/**
+ *
+ * 用户点击用户头像
+ */
+- (void)onSeatAvatarTouch:(NSString *__nonnull)uid seatIndex:(NSInteger)index;
 
 /**
  *
@@ -217,7 +217,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  加入当前游戏
  *  @param position : 位置
  */
-+(void)joinGame:(int)position;
++(void)joinGame:(NSInteger)position;
 
 /*
  *  通过js通知游戏刷新用户资产信息
@@ -253,6 +253,13 @@ NS_ASSUME_NONNULL_BEGIN
  @param mode YES 开 NO 关
  */
 +(void)gameSoundSet:(BOOL)mode;
+
+/*
+*  设置玩家角色
+*  @param role 房主传 1 非房主0
+*/
++ (void)setPlayerRole:(NSInteger)role;
+
 
 /*
  *  设置接入方回调

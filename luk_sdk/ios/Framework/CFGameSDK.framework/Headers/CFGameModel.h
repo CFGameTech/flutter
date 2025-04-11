@@ -24,18 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-@interface CFGamePropsModel : NSObject
-
-//  用户id
-@property (nonatomic, copy) NSString *c_uid;
-//  道具id
-@property (nonatomic, copy) NSString *prop_id;
-//  过期时间戳
-@property (nonatomic, copy) NSString *expire;
-//  数量
-@property (nonatomic, copy) NSString *num;
-
-@end
 
 
 
