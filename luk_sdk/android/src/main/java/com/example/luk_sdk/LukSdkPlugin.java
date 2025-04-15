@@ -63,13 +63,13 @@ public class LukSdkPlugin implements FlutterPlugin, MethodCallHandler, ActivityA
     if (call.method.equals("getPlatformVersion")) {
       result.success("Android " + android.os.Build.VERSION.RELEASE);
     } else if(call.method.equals("setupSDK")) {
-        setupSDK(call,result);
+      setupSDK(call,result);
     } else if(call.method.equals("setUserInfo")){
-        setUserInfo(call,result);
+      setUserInfo(call,result);
     } else if(call.method.equals("getGameList")){
-        getGameList(call,result);
+      getGameList(call,result);
     } else if(call.method.equals("releaseSDK")){
-        releaseSDK(call,result);
+      releaseSDK(call,result);
     } else result.notImplemented();
   }
 
@@ -80,9 +80,9 @@ public class LukSdkPlugin implements FlutterPlugin, MethodCallHandler, ActivityA
   }
 
   public void setupSDK(MethodCall call, Result result){
-        int appid = Integer.parseInt(call.argument("appId"));
-        String language =  call.argument("language");
-        boolean isProduct = call.argument("isProduct");
+    int appid = Integer.parseInt(call.argument("appId"));
+    String language =  call.argument("language");
+    boolean isProduct = call.argument("isProduct");
 
     CFGameSDK.initSDK(this.activity.getApplication(),appid,  language, isProduct);
 
@@ -144,14 +144,15 @@ public class LukSdkPlugin implements FlutterPlugin, MethodCallHandler, ActivityA
         List<Map> newGameList = new ArrayList<Map>();
         if (!gameList.isEmpty()) {
           for (CFGameList.GameInfo gameInfo : gameList) {
-              Map map =  new HashMap<>();
-              map.put("g_id",gameInfo.g_id);
-              map.put("g_name",gameInfo.g_name);
-              map.put("g_icon",gameInfo.g_icon);
-              map.put("g_url",gameInfo.g_url);
-              newGameList.add(map);
+            Map map =  new HashMap<>();
+            map.put("g_id",gameInfo.g_id);
+            map.put("g_name",gameInfo.g_name);
+            map.put("g_icon",gameInfo.g_icon);
+            map.put("g_url",gameInfo.g_url);
+            newGameList.add(map);
           }
         }
+
 
         Map result = new HashMap<>();
         result.put(errCode, 0);

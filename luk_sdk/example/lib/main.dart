@@ -10,9 +10,9 @@ import 'luk_game_page.dart';
 
 void main(){
   runApp(MaterialApp(
-      home: MyApp(),
-      title: "My",
-    ),
+    home: MyApp(),
+    title: "My",
+  ),
   );
 }
 
@@ -27,6 +27,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
   final _lukSdkPlugin = LukSdk();
+  TextEditingController _showIdTEC = TextEditingController();
+
   TextEditingController _appIdTEC = TextEditingController();
   TextEditingController _languageTEC = TextEditingController();
   TextEditingController _isProductTEC = TextEditingController();
@@ -58,20 +60,24 @@ class _MyAppState extends State<MyApp> {
           if (response.isSuccessful){
             debugPrint('main page debug ${response.token}');
             _resultToken = response.token as String;
+            _showIdTEC.text = "LoginSuccess";
           }else{
             debugPrint('loginFail code: ${response.code} msg: ${response.msg}');
+            _showIdTEC.text = "LoginFail";
           }
 
         });
 
       }else if (response is LukOnGetGameListRes){
-        debugPrint('main page debug ${response}');
+        debugPrint('main page debug ${response.gameList}');
         setState(() {
           if(response.isSuccessful){
             List<dynamic> gamelist = response.gameList as List;
             _GameListArr = gamelist;
+            _showIdTEC.text = "getGameListSuccess";
           }else{
             debugPrint('loginFail code: ${response.code} msg: ${response.msg}');
+            _showIdTEC.text = "getGameListFail";
           }
         });
       }
@@ -100,8 +106,8 @@ class _MyAppState extends State<MyApp> {
     _userIdTEC.text = "1233";
     _userCodeTEC.text = "123";
 
-    _halfGameIdTEC.text = "68";
-    _fullGameIdTEC.text = "53";
+    _halfGameIdTEC.text = "117";
+    _fullGameIdTEC.text = "107";
 
     if (!mounted) return;
 
@@ -119,58 +125,70 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text('LUK SDK Demo'),
-            backgroundColor:Colors.lightBlueAccent,
-            foregroundColor: Colors.white,
+          backgroundColor:Colors.lightBlueAccent,
+          foregroundColor: Colors.white,
         ),
         body: Center(
           child: Column(
             children: [
               Row(
-                children: <Widget>[
-                  Expanded(child:TextField(controller: _appIdTEC,
-                    keyboardType: TextInputType.numberWithOptions(),
-                    decoration: InputDecoration(border: OutlineInputBorder(),
-                        hintText: '请输入appid',
-                        hintStyle: TextStyle(color: Colors.grey)),
-                        style: TextStyle(fontSize: 12),
-                    )
-                  ),
-                  Expanded(child:TextField(controller: _languageTEC,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(border: OutlineInputBorder(),
-                        hintText: '请输入language',
-                        hintStyle: TextStyle(color: Colors.grey)),
+                  children: <Widget>[
+                    Expanded(child:TextField(controller: _showIdTEC,
+                      keyboardType: TextInputType.numberWithOptions(),
+                      decoration: InputDecoration(border: OutlineInputBorder(),
+                          hintText: 'show',
+                          hintStyle: TextStyle(color: Colors.grey)),
+                      style: TextStyle(fontSize: 15),
+                    )),
+                  ]
+              ),
+              Row(
+                  children: <Widget>[
+                    Expanded(child:TextField(controller: _appIdTEC,
+                      keyboardType: TextInputType.numberWithOptions(),
+                      decoration: InputDecoration(border: OutlineInputBorder(),
+                          hintText: '请输入appid',
+                          hintStyle: TextStyle(color: Colors.grey)),
                       style: TextStyle(fontSize: 12),
-                  )
-                  ),
-                  Expanded(child:TextField(controller: _isProductTEC,
-                    keyboardType: TextInputType.numberWithOptions(),
-                    decoration: InputDecoration(border: OutlineInputBorder(),
-                        hintText: '请输入isProduct',
-                        hintStyle: TextStyle(color: Colors.grey)),
-                        style: TextStyle(fontSize: 12),
-                  )
-                  ),
-                ]
+                    )
+                    ),
+                    Expanded(child:TextField(controller: _languageTEC,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(border: OutlineInputBorder(),
+                          hintText: '请输入language',
+                          hintStyle: TextStyle(color: Colors.grey)),
+                      style: TextStyle(fontSize: 12),
+                    )
+                    ),
+                    Expanded(child:TextField(controller: _isProductTEC,
+                      keyboardType: TextInputType.numberWithOptions(),
+                      decoration: InputDecoration(border: OutlineInputBorder(),
+                          hintText: '请输入isProduct',
+                          hintStyle: TextStyle(color: Colors.grey)),
+                      style: TextStyle(fontSize: 12),
+                    )
+                    ),
+                  ]
               ),
               Center(child:
-                    ElevatedButton(onPressed: (){
-                      print('init btn click');
-                      if(_appIdTEC.text.isNotEmpty && _languageTEC.text.isNotEmpty && _isProductTEC.text.isNotEmpty){
+              ElevatedButton(onPressed: (){
+                print('init btn click');
+                if(_appIdTEC.text.isNotEmpty && _languageTEC.text.isNotEmpty && _isProductTEC.text.isNotEmpty){
 
-                        var appId = _appIdTEC.text;
-                        var language = _languageTEC.text;
-                        var isProduct = _isProductTEC.text.toLowerCase() == 'true';
+                  var appId = _appIdTEC.text;
+                  var language = _languageTEC.text;
+                  var isProduct = _isProductTEC.text.toLowerCase() == 'true';
 
-                        print("appid: ${appId}, language: ${language}, isProduct: ${isProduct}");
+                  print("appid: ${appId}, language: ${language}, isProduct: ${isProduct}");
 
-                        _lukSdkPlugin.setupSDK(appId, language, isProduct);
+                  _lukSdkPlugin.setupSDK(appId, language, isProduct);
+                  _showIdTEC.text = "initSuccess";
 
-                      }
-                    },
-                      child: Text('sdk init',style: TextStyle(fontSize: 18),),
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.blue,foregroundColor: Colors.white,minimumSize: Size(150, 40,)),
-                  )
+                }
+              },
+                child: Text('sdk init',style: TextStyle(fontSize: 18),),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.blue,foregroundColor: Colors.white,minimumSize: Size(150, 40,)),
+              )
               ),
               Row(
                   children: <Widget>[
@@ -193,20 +211,20 @@ class _MyAppState extends State<MyApp> {
                   ]
               ),
               Center(child:
-                        ElevatedButton(onPressed: (){
-                          print('login btn click');
-                          if(_userIdTEC.text.isNotEmpty) {
-                            var userId = _userIdTEC.text;
-                            var userCode = _userCodeTEC.text;
+              ElevatedButton(onPressed: (){
+                print('login btn click');
+                if(_userIdTEC.text.isNotEmpty) {
+                  var userId = _userIdTEC.text;
+                  var userCode = _userCodeTEC.text;
 
-                            print("userId: ${userId}, userCode: ${userCode}");
+                  print("userId: ${userId}, userCode: ${userCode}");
 
-                            _lukSdkPlugin.setUserInfo(userId, userCode);
-                          }
-                          },
-                           child: Text('sdk login',style: TextStyle(fontSize: 18),),
-                           style: ElevatedButton.styleFrom(backgroundColor: Colors.blue,foregroundColor: Colors.white,minimumSize: Size(150, 40,)),
-                    )
+                  _lukSdkPlugin.setUserInfo(userId, userCode);
+                }
+              },
+                child: Text('sdk login',style: TextStyle(fontSize: 18),),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.blue,foregroundColor: Colors.white,minimumSize: Size(150, 40,)),
+              )
               ),
               Center(child:
               ElevatedButton(onPressed: (){
@@ -298,25 +316,25 @@ class _MyAppState extends State<MyApp> {
 
 
 
-                        // Navigator.of(context).push(MaterialPageRoute(
-                        //   builder: (context) => const LukGamePage(gameId: 68, gameName: "Ludo", gameUrl: "https://games.lucky9studio.com/sdk/app_Debug/ludo2/index.html")
-                        // ));
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //   builder: (context) => const LukGamePage(gameId: 68, gameName: "Ludo", gameUrl: "https://games.lucky9studio.com/sdk/app_Debug/ludo2/index.html")
+                      // ));
 
 
                     },
-                          child: Text('打开全屏游戏',style: TextStyle(fontSize: 18),),
-                                                    style: ElevatedButton.styleFrom(backgroundColor: Colors.blue,foregroundColor: Colors.white,minimumSize: Size(150, 40,)),
-                            )
+                      child: Text('打开全屏游戏',style: TextStyle(fontSize: 18),),
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.blue,foregroundColor: Colors.white,minimumSize: Size(150, 40,)),
+                    )
                     ),
                   ]
               ),
               Center(child:
-                        ElevatedButton(onPressed: (){
-                            _lukSdkPlugin.releaseSDK();
-                          },
-                        child: Text('sdk release',style: TextStyle(fontSize: 18),),
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.blue,foregroundColor: Colors.white,minimumSize: Size(150, 40,)),
-                  )
+              ElevatedButton(onPressed: (){
+                _lukSdkPlugin.releaseSDK();
+              },
+                child: Text('sdk release',style: TextStyle(fontSize: 18),),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.blue,foregroundColor: Colors.white,minimumSize: Size(150, 40,)),
+              )
               ),
             ],
           ),

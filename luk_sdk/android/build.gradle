@@ -8,17 +8,17 @@ if(localPF.exists()){
         localP.load(reader);
     }
 }
-//def flutterRoot = localP.getProperty('flutter.sdk')
+def flutterRoot = localP.getProperty('flutter.sdk')
 
-def flutterRoot = "/Users/yq_mac/development/flutter"
+//def flutterRoot = "/Users/yq_mac/development/flutter"
 
 buildscript {
     repositories {
 
-        maven { url 'https://maven.aliyun.com/repository/google' }
-//        maven { url 'https://maven.aliyun.com/repository/jcenter' }
-        maven { allowInsecureProtocol = true
-            url 'https://maven.aliyun.com/nexus/content/groups/public' }
+//        maven { url 'https://maven.aliyun.com/repository/google' }
+////        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+//        maven { allowInsecureProtocol = true
+//            url 'https://maven.aliyun.com/nexus/content/groups/public' }
 
         google()
         mavenCentral()
@@ -26,17 +26,17 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:8.1.0")
+        classpath("com.android.tools.build:gradle:8.3.2")
     }
 }
 
 rootProject.allprojects {
     repositories {
 
-        maven { url 'https://maven.aliyun.com/repository/google' }
-//        maven { url 'https://maven.aliyun.com/repository/jcenter' }
-        maven { allowInsecureProtocol = true
-            url 'https://maven.aliyun.com/nexus/content/groups/public' }
+//        maven { url 'https://maven.aliyun.com/repository/google' }
+////        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+//        maven { allowInsecureProtocol = true
+//            url 'https://maven.aliyun.com/nexus/content/groups/public' }
 
         google()
         mavenCentral()
@@ -63,7 +63,7 @@ android {
     }
 
     defaultConfig {
-        minSdk = 21
+        minSdkVersion = 21
     }
 
 
@@ -73,6 +73,8 @@ android {
         testImplementation("org.mockito:mockito-core:5.0.0")
         compileOnly files("$flutterRoot/bin/cache/artifacts/engine/android-arm/flutter.jar")
         compileOnly 'androidx.annotation:annotation:1.2.0'
+        implementation 'androidx.webkit:webkit:1.4.0'
+
     }
 
     testOptions {
