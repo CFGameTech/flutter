@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+import 'dart:io';
 
 class LukGameView extends StatefulWidget {
   final String url; //游戏链接
@@ -58,16 +61,25 @@ class LukGameView extends StatefulWidget {
 }
 
 class _LukGameViewState extends State<LukGameView> {
+
   final WebViewController _controller = WebViewController();
 
   @override
   void initState(){
     super.initState();
+
+    if(Platform.isAndroid){
+      _controller.platform as AndroidWebViewController;
+    }
     _initController();
+
   }
+
   
   void _initController() async {
     final jsFile = await rootBundle.loadString('packages/luk_sdk/assets/luk_game_channel.js');
+
+
 
     _controller
       ..setBackgroundColor(Colors.transparent)
@@ -178,7 +190,7 @@ class _LukGameViewState extends State<LukGameView> {
             LinearProgressIndicator(
               value: progress / 100, // 将进度值转换为0到1之间的数值
             );
-          }
+          },
         ),
       )
 
@@ -189,9 +201,10 @@ class _LukGameViewState extends State<LukGameView> {
 
   @override
   Widget build(BuildContext context) {
-    return WebViewWidget(
-      controller: _controller,
-    );
+
+      return WebViewWidget(
+        controller: _controller,
+      );
   }
 }
 
