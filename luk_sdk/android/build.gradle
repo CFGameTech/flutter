@@ -1,24 +1,8 @@
 group = "com.example.luk_sdk"
 version = "1.0"
 
-def localP = new Properties()
-def localPF = rootProject.file('local.properties')
-if(localPF.exists()){
-    localPF.withReader('UTF-8'){reader ->
-        localP.load(reader);
-    }
-}
-def flutterRoot = localP.getProperty('flutter.sdk')
-
-//def flutterRoot = "/Users/yq_mac/development/flutter"
-
 buildscript {
     repositories {
-
-//        maven { url 'https://maven.aliyun.com/repository/google' }
-////        maven { url 'https://maven.aliyun.com/repository/jcenter' }
-//        maven { allowInsecureProtocol = true
-//            url 'https://maven.aliyun.com/nexus/content/groups/public' }
 
         google()
         mavenCentral()
@@ -33,17 +17,11 @@ buildscript {
 rootProject.allprojects {
     repositories {
 
-//        maven { url 'https://maven.aliyun.com/repository/google' }
-////        maven { url 'https://maven.aliyun.com/repository/jcenter' }
-//        maven { allowInsecureProtocol = true
-//            url 'https://maven.aliyun.com/nexus/content/groups/public' }
-
         google()
         mavenCentral()
 
         flatDir{
             dirs project(':luk_sdk').file('libs')
-//              dirs project(':').file('libs')
         }
     }
 }
@@ -51,7 +29,7 @@ rootProject.allprojects {
 apply plugin: "com.android.library"
 
 android {
-    compileSdk 34
+    compileSdk 32
     if (project.android.hasProperty("namespace")) {
         namespace = "com.example.luk_sdk"
     }
@@ -63,7 +41,8 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion = 21
+        minSdkVersion 21
+        targetSdkVersion 32
     }
 
 
@@ -71,9 +50,8 @@ android {
         implementation(name:'cfg_lib_v1.6.2',ext:'aar')
         testImplementation("junit:junit:4.13.2")
         testImplementation("org.mockito:mockito-core:5.0.0")
-        compileOnly files("$flutterRoot/bin/cache/artifacts/engine/android-arm/flutter.jar")
         compileOnly 'androidx.annotation:annotation:1.2.0'
-        implementation 'androidx.webkit:webkit:1.4.0'
+        implementation 'androidx.webkit:webkit:1.8.0'
 
     }
 
